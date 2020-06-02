@@ -1,6 +1,8 @@
 export interface NewsOptions {
   feedUrl?: string;
   useProxy?: boolean;
+  clampContent?: boolean;
+  numClampContent?: number;
 }
 
 export const defaults: NewsOptions = {

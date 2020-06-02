@@ -63,7 +63,10 @@ export class NewsPanel extends PureComponent<Props, State> {
 
   render() {
     const { isError, news } = this.state;
+    const { clampContent, numClampContent } = this.props.options;
     const styles = getStyles(config.theme);
+
+    console.log(config.theme.typography.lineHeight.md * numClampContent);
 
     if (isError) {
       return <div>Error Loading News</div>;
@@ -81,7 +84,25 @@ export class NewsPanel extends PureComponent<Props, State> {
                 <div className={styles.title}>{item.title}</div>
                 <div className={styles.date}>{dateTimeFormat(item.date, { format: 'MMM DD' })} </div>
               </a>
-              <div className={styles.content} dangerouslySetInnerHTML={{ __html: textUtil.sanitize(item.content) }} />
+              <div
+                className={css`
+                  ${styles.content};
+                  overflow: hidden;
+                  position: relative;
+                  padding-right: 1rem;
+                  max-height: calc(${config.theme.typography.lineHeight.md}rem * ${numClampContent});
+                `}
+                style={
+                  clampContent
+                    ? {
+                        overflow: 'hidden',
+                        position: 'relative',
+                        maxHeight: `calc(${config.theme.typography.lineHeight.md}rem * ${numClampContent})`,
+                      }
+                    : undefined
+                }
+                dangerouslySetInnerHTML={{ __html: textUtil.sanitize(item.content) }}
+              />
             </div>
           );
         })}

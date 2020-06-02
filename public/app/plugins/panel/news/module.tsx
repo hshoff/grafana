@@ -14,6 +14,19 @@ export const plugin = new PanelPlugin<NewsOptions>(NewsPanel).setPanelOptions(bu
       },
     })
     .addBooleanSwitch({
+      path: 'clampContent',
+      name: 'Clamp Content',
+      description: 'Clamp the number of lines of content',
+    })
+    .addNumberInput({
+      path: 'numClampContent',
+      name: 'Clamp Lines',
+      description: 'Number of lines of content to clamp',
+      showIf: (currentConfig: NewsOptions) => {
+        return !!currentConfig.clampContent;
+      },
+    })
+    .addBooleanSwitch({
       path: 'useProxy',
       name: 'Use Proxy',
       description: 'If the feed is unable to connect, consider a CORS proxy',
